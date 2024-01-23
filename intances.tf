@@ -20,6 +20,8 @@ resource "azurerm_network_interface" "nic-instances" {
         private_ip_address_allocation = "Dynamic"
         subnet_id = azurerm_subnet.subs[local.mapped_vm[each.key].subnet].id
     }
+
+    dns_servers = var.global.dns_servers
     
 
     depends_on = [ azurerm_subnet.subs ]

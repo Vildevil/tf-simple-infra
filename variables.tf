@@ -6,6 +6,12 @@ variable "base_name" {
   type = string 
 }
 
+variable "global" {
+  type = object({
+    dns_servers = list(string)
+  })
+}
+
 
 
 variable "network_configuration" {

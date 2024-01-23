@@ -14,3 +14,10 @@ resource "azurerm_subnet" "subs" {
   name = "subnet-${var.base_name}-${format("%02s", index(var.network_configuration.subnets, each.key) + 1)}"
   address_prefixes = [each.key]
 }
+
+resource "azurerm_subnet_network_security_group_association" "subnets-default-nsg" {
+  for_each = azurerm_subnet.subs
+
+  subnet_id = each.value.key
+  network_security_group_id = azurerm_network_security_group.default_sg
+}

@@ -25,7 +25,7 @@ resource "azurerm_managed_disk" "vm_data_disks" {
     storage_account_type = "Standard_LRS"
     disk_size_gb = each.value.disk_data.size
 
-    name = "dd-${each.value.vm_hostname}-LUN${each.key}"
+    name = "dd-${each.value.vm_hostname}-LUN${each.value.disk_data.lun}"
     create_option = "Empty"
 }
 

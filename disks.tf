@@ -8,10 +8,6 @@ locals {
         ]
     ])
 
-    # mapped_disks = {for index, value in local.temp: value.disk_data.lun => {
-    #     vm_hostname = value.vm_hostname
-    #     disk_data = value.disk_data
-    # }}
 
     mapped_disks = {for index, value in local.temp: "${value.vm_hostname}:${value.disk_data.lun}" => {
         vm_hostname = value.vm_hostname

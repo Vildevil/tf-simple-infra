@@ -43,6 +43,8 @@ resource "azurerm_windows_virtual_machine" "vm-instances" {
         disk_size_gb = each.value.os_disk_size
     }
 
+    license_type = each.value.licence_type
+
     size = each.value.type
     network_interface_ids = [ azurerm_network_interface.nic-instances[each.key].id ]
 

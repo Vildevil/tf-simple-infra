@@ -7,6 +7,7 @@ variable "base_name" {
 }
 
 
+
 variable "network_configuration" {
   type = object({
     address_space = list(string)
@@ -22,6 +23,7 @@ variable "instances_configuration" {
     password = string
     subnet = string
     os_disk_size = number
+    licence_type = string
     data_disks = list(object({
       lun = string
       size = number

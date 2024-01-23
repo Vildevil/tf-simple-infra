@@ -31,7 +31,7 @@ resource "azurerm_network_interface" "nic-instances" {
 resource "azurerm_windows_virtual_machine" "vm-instances" {
     for_each = local.mapped_vm
 
-    name = "vm-${var.base_name}-${format("%02s", local.vm_index[each.key] + 1)}"
+    name = each.value.name
     computer_name = each.value.hostname
     resource_group_name = data.azurerm_resource_group.rg-base.name
     location = data.azurerm_resource_group.rg-base.location

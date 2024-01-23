@@ -24,6 +24,7 @@ variable "network_configuration" {
 variable "instances_configuration" {
   type = list(object({
     hostname = string
+    name = string
     type = string
     username = string
     password = string

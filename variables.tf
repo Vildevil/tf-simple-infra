@@ -24,7 +24,6 @@ variable "instances_configuration" {
     os_disk_size = number
     data_disks = list(object({
       lun = string
-      name = string
       size = number
     }))
 

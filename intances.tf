@@ -39,7 +39,7 @@ resource "azurerm_windows_virtual_machine" "vm-instances" {
     admin_password = each.value.password
     admin_username = each.value.username
     os_disk {
-        name = "osd-${each.value.hostname}"
+        name = "osd-${each.value.name}"
         storage_account_type = "Standard_LRS"
         caching = "ReadWrite"
         disk_size_gb = each.value.os_disk_size

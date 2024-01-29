@@ -22,7 +22,7 @@ resource "azurerm_managed_disk" "vm_data_disks" {
     resource_group_name = data.azurerm_resource_group.rg-base.name
     location = data.azurerm_resource_group.rg-base.location
 
-    storage_account_type = "Premium_LRS"
+    storage_account_type = "StandardSSD_LRS"
     disk_size_gb = each.value.disk_data.size
 
     name = "dd-${each.value.vm_hostname}-LUN${each.value.disk_data.lun}"

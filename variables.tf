@@ -21,7 +21,7 @@ variable "network_configuration" {
   })
 }
 
-variable "instances_configuration" {
+variable "windows_instances_configuration" {
   type = list(object({
     hostname = string
     name = string
@@ -31,6 +31,35 @@ variable "instances_configuration" {
     subnet = string
     os_disk_size = number
     licence_type = string
+    data_disks = list(object({
+      lun = string
+      size = number
+    }))
+
+    image_reference = object({
+      publisher = string
+      version = string
+      sku = string
+      offer = string
+    })
+  }))
+}
+
+
+variable "linux_instances_configuration" {
+  type = list(object({
+    name = string
+    hostname = string
+
+    type = string
+
+    username = string
+    public_ssh_key = string
+
+    subnet = string
+
+    os_disk_size = number
+
     data_disks = list(object({
       lun = string
       size = number

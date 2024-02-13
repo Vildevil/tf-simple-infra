@@ -1,24 +1,21 @@
 locals {
-  mapped_vm = {for index, value in var.instances_configuration: value.hostname => value}
-  vm_index = {for index, value in var.instances_configuration: value.hostname => index}
+  windows_mapped_vm = {for index, value in var.windows_instances_configuration: value.hostname => value}
+  windows_vm_index = {for index, value in var.windows_instances_configuration: value.hostname => index}
 }
 
 
-output "demo" {
-  value = local.mapped_vm
-}
 
-resource "azurerm_network_interface" "nic-instances" {
-    for_each = local.mapped_vm
+resource "azurerm_network_interface" "win_nic_instances" {
+    for_each = local.windows_mapped_vm
 
-    name = "nic-${var.base_name}-${format("%02s", local.vm_index[each.key] + 1)}"
+    name = "nic-${var.base_name}-${format("%02s", local.windows_vm_index[each.key] + 1)}"
     resource_group_name = data.azurerm_resource_group.rg-base.name
     location = data.azurerm_resource_group.rg-base.location
 
     ip_configuration {
-        name = "pip-${var.base_name}-${local.vm_index[each.key]}"
+        name = "pip-${var.base_name}-${local.windows_vm_index[each.key]}"
         private_ip_address_allocation = "Dynamic"
-        subnet_id = azurerm_subnet.subs[local.mapped_vm[each.key].subnet].id
+        subnet_id = azurerm_subnet.subs[local.windows_mapped_vm[each.key].subnet].id
     }
 
     dns_servers = var.global.dns_servers
@@ -28,8 +25,8 @@ resource "azurerm_network_interface" "nic-instances" {
 }
 
 
-resource "azurerm_windows_virtual_machine" "vm-instances" {
-    for_each = local.mapped_vm
+resource "azurerm_windows_virtual_machine" "win_vm_instances" {
+    for_each = local.windows_mapped_vm
 
     name = each.value.name
     computer_name = each.value.hostname
@@ -48,7 +45,7 @@ resource "azurerm_windows_virtual_machine" "vm-instances" {
     license_type = each.value.licence_type
 
     size = each.value.type
-    network_interface_ids = [ azurerm_network_interface.nic-instances[each.key].id ]
+    network_interface_ids = [ azurerm_network_interface.win_nic_instances[each.key].id ]
 
     source_image_reference {
       version = each.value.image_reference.version
@@ -57,5 +54,5 @@ resource "azurerm_windows_virtual_machine" "vm-instances" {
       sku = each.value.image_reference.sku
     }
 
-    depends_on = [ azurerm_network_interface.nic-instances ]
+    depends_on = [ azurerm_network_interface.win_nic_instances ]
 }
